@@ -1,12 +1,4 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":rebaseStalePrs",
-    ":semanticCommits",
-    ":semanticCommitScope(deps)",
-    "helpers:pinGitHubActionDigests"
-  ],
   "customManagers": [
     {
       "customType": "regex",
@@ -15,8 +7,7 @@
       ],
       "matchStrings": [
         "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
-      ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
+      ]
     }
   ],
   "packageRules": [
@@ -24,7 +15,8 @@
       "matchDepNames": [
         "ggml-org/llama.cpp"
       ],
-      "versioning": "loose"
+      "versioning": "regex:^(?<major>b)(?<patch>\\d+)$",
+      "extractVersion": "^b(?<version>\\d+)$"
     }
   ]
 }
