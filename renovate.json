@@ -14,10 +14,9 @@
         "/(^|/)PKGBUILD$/"
       ],
       "matchStrings": [
-        "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
+        "pkgver=(?<currentValue>\\S+) # renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?"
       ],
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "versioning": "loose"
+      "extractVersionTemplate": "^b(?<version>\\d+)$"
     }
   ]
 }
