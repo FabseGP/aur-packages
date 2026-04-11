@@ -16,8 +16,7 @@
       "matchStrings": [
         "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
       ],
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "versioning": "loose"
+      "extractVersionTemplate": "^v?(?<version>.*)$"
     }
   ]
 }
