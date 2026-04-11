@@ -14,9 +14,18 @@
         "/(^|/)PKGBUILD$/"
       ],
       "matchStrings": [
-        "pkgver=(?<currentValue>\\S+) # renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?"
+        "pkgver=(?<currentValue>\\S+) # renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)"
       ],
       "extractVersionTemplate": "^b(?<version>\\d+)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "ggml-org/llama.cpp"
+      ],
+      "versioning": "regex",
+      "versioningPattern": "^b(?<build>\\d+)$"
     }
   ]
 }
