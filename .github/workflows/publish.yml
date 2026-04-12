@@ -1,11 +1,11 @@
 name: publish
 
 on:
-  #push:
-    #branches:
-      #- main
-    #paths:
-      #- '*/PKGBUILD'
+  push:
+    branches:
+      - main
+    paths:
+      - '*/PKGBUILD'
   workflow_dispatch:
 
 jobs:
