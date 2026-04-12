@@ -26,7 +26,7 @@ jobs:
 
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@v4.1.2
-        if: ${{ env.pkgbuild != '' }}
+        #if: ${{ env.pkgbuild != '' }}
         with:
           pkgname: ${{ env.pkgbuild }}
           pkgbuild: ${{ env.pkgbuild }}/PKGBUILD
