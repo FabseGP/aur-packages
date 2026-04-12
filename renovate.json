@@ -23,7 +23,8 @@
       "matchDepNames": [
         "ggml-org/llama.cpp"
       ],
-      "versioning": "regex:^(?<major>b)(?<patch>\\d+)$"
+      "versioning": "regex:^(?<major>b)(?<patch>\\d+)$",
+      "allowedVersions": "/^b\\d+$/"
     }
   ]
 }
