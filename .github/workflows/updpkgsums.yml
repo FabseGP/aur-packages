@@ -1,9 +1,9 @@
 name: updpkgsums
 
 on:
-  push:
-    branches:
-      - 'renovate/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -22,24 +22,8 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
-          
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE_BRANCH="origin/${{ github.base_ref }}"
-            CURRENT_BRANCH="origin/${{ github.head_ref }}"
-          else
-            BASE_BRANCH="origin/main"
-            CURRENT_BRANCH="HEAD"
-          fi
-          
-          PKGBUILD_FILE=$(git diff --name-only ${BASE_BRANCH} ${CURRENT_BRANCH} -- "*PKGBUILD" | head -1)
-          
-          if [ -n "$PKGBUILD_FILE" ]; then
-            PKG_DIR=$(dirname "$PKGBUILD_FILE")
-            echo "pkgbuild=${PKG_DIR}" >> $GITHUB_ENV
-            echo "Found PKGBUILD in: ${PKG_DIR}"
-          else
-            echo "No PKGBUILD files changed"
-          fi
+
+          echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
 
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}

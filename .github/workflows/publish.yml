@@ -2,10 +2,8 @@ name: publish
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '*/PKGBUILD'
+    branches: [ main ]
+    paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
 
 jobs:

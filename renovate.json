@@ -9,7 +9,6 @@
   ],
   "configMigration": true,
   "automerge": true,
-  "automergeType": "branch",
   "customManagers": [
     {
       "customType": "regex",
