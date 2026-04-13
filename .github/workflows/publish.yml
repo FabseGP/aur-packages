@@ -22,6 +22,26 @@ jobs:
 
           echo "pkgbuild=$(git diff --name-only HEAD HEAD~1 "*/.SRCINFO" | head -1 | xargs dirname)" >> $GITHUB_ENV
 
+      - name: Update checksums
+        if: ${{ env.pkgbuild != '' }}
+        uses: ./.github/actions/aur
+        with:
+          action: 'updpkgsums'
+          pkgname: ${{ env.pkgbuild }}
+
+      - name: Commit
+        if: ${{ env.pkgbuild != '' }}
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
+        with:
+          file_pattern: '*/PKGBUILD */.SRCINFO'
+          commit_message: 'chore: update PKGBUILD checksums'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Pull latest changes
+        if: ${{ env.pkgbuild != '' }}
+        run: git pull origin main --rebase
+
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@abe8ac26b51011c88be58c8809fd2ac674068ea5
         if: ${{ env.pkgbuild != '' }}

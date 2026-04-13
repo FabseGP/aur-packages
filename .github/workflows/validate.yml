@@ -1,4 +1,4 @@
-name: updpkgsums
+name: validate
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  updpkgsums:
+  validate:
     runs-on: ubuntu-latest
     permissions:
       contents: write 
@@ -29,14 +29,5 @@ jobs:
         if: ${{ env.pkgbuild != '' }}
         uses: ./.github/actions/aur
         with:
-          action: 'updpkgsums'
+          action: 'validate'
           pkgname: ${{ env.pkgbuild }}
-
-      - name: Commit
-        if: ${{ env.pkgbuild != '' }}
-        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
-        with:
-          file_pattern: '*/PKGBUILD */.SRCINFO'
-          commit_message: 'chore: update PKGBUILD checksums'
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: 'github-actions[bot]@users.noreply.github.com'

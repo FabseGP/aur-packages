@@ -26,21 +26,24 @@ updpkgsums
 git diff PKGBUILD
 echo "::endgroup::"
 
-echo "::group::Installing depends using paru"
-source PKGBUILD
-paru -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
-echo "::endgroup::"
-
-echo "::group::Running makepkg"
-makepkg
-echo "::endgroup::"
-
 echo "::group::Generating new .SRCINFO based on PKGBUILD"
 makepkg --printsrcinfo >.SRCINFO
 git diff .SRCINFO
 echo "::endgroup::"
 
-echo "::group::Copying files from $HOME/gh-action to $WORKPATH"
-sudo cp -fv PKGBUILD "$WORKPATH"/PKGBUILD
-sudo cp -fv .SRCINFO "$WORKPATH"/.SRCINFO
-echo "::endgroup::"
+if [[ "$INPUT_ACTION" == "validate" ]]; then
+  echo "::group::Installing depends using paru"
+  source PKGBUILD
+  paru -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
+  echo "::endgroup::"
+
+  echo "::group::Running makepkg"
+  makepkg
+  echo "::endgroup::"
+
+else
+  echo "::group::Copying files from $HOME/gh-action to $WORKPATH"
+  sudo cp -fv PKGBUILD "$WORKPATH"/PKGBUILD
+  sudo cp -fv .SRCINFO "$WORKPATH"/.SRCINFO
+  echo "::endgroup::"
+fi
