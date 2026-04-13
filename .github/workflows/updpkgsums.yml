@@ -2,9 +2,7 @@ name: updpkgsums
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
+    types: [opened, synchronize, reopened]
     branches:
       - main
   workflow_dispatch:
@@ -13,16 +11,13 @@ jobs:
   updpkgsums:
     runs-on: ubuntu-latest
     permissions:
-      # In order to make sure that the git-auto-commit-action has the permissions to write to the repository
-      # using the $GITHUB_TOKEN, we have to add the write permissions to it.
       contents: write 
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-
       - name: Find updated package
         run: |
           #!/usr/bin/env bash
@@ -39,6 +34,6 @@ jobs:
 
       - name: Commit
         if: ${{ env.pkgbuild != '' }}
-        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         with:
           file_pattern: '*/PKGBUILD */.SRCINFO'
