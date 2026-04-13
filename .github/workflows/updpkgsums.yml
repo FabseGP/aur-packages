@@ -3,6 +3,9 @@ name: updpkgsums
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - 'renovate/**'
   workflow_dispatch:
 
 jobs:
