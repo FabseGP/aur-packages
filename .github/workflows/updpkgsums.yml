@@ -19,12 +19,29 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
+          
       - name: Find updated package
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
-
-          echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
+          
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_BRANCH="origin/${{ github.base_ref }}"
+            CURRENT_BRANCH="origin/${{ github.head_ref }}"
+          else
+            BASE_BRANCH="origin/main"
+            CURRENT_BRANCH="HEAD"
+          fi
+          
+          PKGBUILD_FILE=$(git diff --name-only ${BASE_BRANCH} ${CURRENT_BRANCH} -- "*PKGBUILD" | head -1)
+          
+          if [ -n "$PKGBUILD_FILE" ]; then
+            PKG_DIR=$(dirname "$PKGBUILD_FILE")
+            echo "pkgbuild=${PKG_DIR}" >> $GITHUB_ENV
+            echo "Found PKGBUILD in: ${PKG_DIR}"
+          else
+            echo "No PKGBUILD files changed"
+          fi
 
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
@@ -38,3 +55,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9
         with:
           file_pattern: '*/PKGBUILD */.SRCINFO'
+          commit_message: 'chore: update PKGBUILD checksums'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
