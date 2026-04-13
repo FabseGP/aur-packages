@@ -37,6 +37,8 @@ jobs:
           commit_message: 'chore: update PKGBUILD checksums'
           commit_user_name: 'github-actions[bot]'
           commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
 
       - name: Pull latest changes
         if: ${{ env.pkgbuild != '' }}
