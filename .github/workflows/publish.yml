@@ -35,8 +35,8 @@ jobs:
         with:
           file_pattern: '*/PKGBUILD */.SRCINFO'
           commit_message: 'chore: update PKGBUILD checksums'
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_user_name: 'FabseGP'
+          commit_user_email: 'fabse_utilities@pm.me'
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
 
