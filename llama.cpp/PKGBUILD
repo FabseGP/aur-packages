@@ -45,7 +45,6 @@ prepare() {
   ln -sf "${pkgname}-${pkgver}" llama.cpp
 }
 build() {
-
   local _cmake_options=(
     -B build
     -S "${pkgname}"
@@ -83,7 +82,6 @@ build() {
   cmake "${_cmake_options[@]}"
   cmake --build build -- -j $(nproc)
 }
-
 package() {
   DESTDIR="${pkgdir}" cmake --install build
 
