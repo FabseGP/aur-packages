@@ -1,7 +1,7 @@
 # Maintainer: fabse
 
 pkgname=llama-swap
-pkgver=v198 # renovate: datasource=github-releases depName=mostlygeek/llama-swap
+pkgver=v201 # renovate: datasource=github-releases depName=mostlygeek/llama-swap
 pkgrel=2
 pkgdesc="Model swapping for llama.cpp (or any local OpenAPI compatible server)"
 arch=(x86_64 aarch64)
