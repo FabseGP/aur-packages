@@ -52,7 +52,7 @@ build() {
 
   local _cmake_options=(
     -B build
-    -S "${_pkgname}"
+    -S "${pkgname}"
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX='/usr'
     -DBUILD_SHARED_LIBS=ON
