@@ -50,7 +50,6 @@ build() {
   if [[ -z "${NVCC_CCBIN}" ]]; then
     source /etc/profile
   fi
-
   local _cmake_options=(
     -B build
     -S "${_pkgname}"
