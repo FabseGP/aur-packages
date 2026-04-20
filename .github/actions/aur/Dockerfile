@@ -11,11 +11,18 @@ RUN echo "" >> /etc/pacman.conf && \
     echo "[chaotic-aur]" >> /etc/pacman.conf && \
     echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 
-RUN pacman -Syu --needed --noconfirm pacman-contrib namcap git sudo paru && \
+RUN pacman -Syu --needed --noconfirm pacman-contrib namcap git sudo paru ccache && \
   useradd -m builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
+RUN sed -i 's/!ccache/ccache/' /etc/makepkg.conf && \
+    echo 'export PATH="/usr/lib/ccache:$PATH"' >> /home/builder/.bashrc && \
+    echo 'CCACHE_DIR=/home/builder/.ccache' >> /etc/makepkg.conf
+
+RUN ccache --set-config=max_size=5G --set-config=compression=true
+
 WORKDIR /home/builder
+
 USER builder
 
 COPY entrypoint.sh /entrypoint.sh
