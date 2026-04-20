@@ -30,7 +30,7 @@ jobs:
 
       - name: Cache builds
         if: ${{ env.pkgbuild != '' }}
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ env.CACHE_DIR }}
           key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-${{ hashFiles('**/PKGBUILD', '**/*.patch') }}
