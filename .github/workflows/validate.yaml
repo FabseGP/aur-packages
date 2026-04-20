@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CACHE_DIR: .ccache
+  CCACHE_DIR: .ccache
 
 jobs:
   validate:
@@ -28,13 +28,24 @@ jobs:
 
           echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
 
+      - name: Prepare ccache directory
+        if: ${{ env.pkgbuild != '' }}
+        run: mkdir -p ${{ github.workspace }}/.ccache
+
       - name: Cache builds
         if: ${{ env.pkgbuild != '' }}
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
-          path: ${{ env.CACHE_DIR }}
+          path: ${{ github.workspace }}/.ccache
           key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-${{ hashFiles('**/PKGBUILD', '**/*.patch') }}
           restore-keys: ${{ runner.os }}-cache-${{ env.pkgbuild }}-
+
+      - name: Debug cache directory
+        if: ${{ env.pkgbuild != '' }}
+        run: |
+          echo "Checking ${{ github.workspace }}/.ccache"
+          ls -la "${{ github.workspace }}/.ccache" || echo "Directory does not exist!"
+          du -sh "${{ github.workspace }}/.ccache" 2>/dev/null || echo "No size info"
 
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
@@ -42,4 +53,4 @@ jobs:
         with:
           action: 'validate'
           pkgname: ${{ env.pkgbuild }}
-          cache-dir: ${{ env.CACHE_DIR }}
+          ccache-dir: ${{ env.CACHE_DIR }}

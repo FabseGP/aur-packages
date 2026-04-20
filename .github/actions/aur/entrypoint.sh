@@ -22,10 +22,11 @@ echo "::group::Updating archlinux-keyring"
 sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
-if [[ -n "${INPUT_CACHE_DIR:-}" ]]; then
-  CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CACHE_DIR}"
+if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
+  CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CCACHE_DIR}"
   mkdir -p "$CCACHE_PATH"
   export CCACHE_DIR="$CCACHE_PATH"
+  echo "CCACHE_DIR set to: $CCACHE_DIR" >&2
 fi
 
 echo "::group::Updating checksums on PKGBUILD"
