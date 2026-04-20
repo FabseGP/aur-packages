@@ -39,8 +39,8 @@ jobs:
           path: ${{ github.workspace }}/${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-
           restore-keys: |
-            ${{ runner.os }}-ccache-${{ env.pkgbuild }}-
-            ${{ runner.os }}-ccache-
+            ${{ runner.os }}-cache-${{ env.pkgbuild }}-
+            ${{ runner.os }}-cache-
 
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
