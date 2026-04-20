@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CCACHE_DIR: /home/runner/.cache/.ccache
+  CACHE_DIR: .ccache
 
 jobs:
   validate:
@@ -32,7 +32,7 @@ jobs:
         if: ${{ env.pkgbuild != '' }}
         uses: actions/cache@v5
         with:
-          path: ${{ env.CCACHE_DIR }}
+          path: ${{ env.CACHE_DIR }}
           key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-${{ hashFiles('**/PKGBUILD', '**/*.patch') }}
           restore-keys: ${{ runner.os }}-cache-${{ env.pkgbuild }}-
 
@@ -42,4 +42,4 @@ jobs:
         with:
           action: 'validate'
           pkgname: ${{ env.pkgbuild }}
-          cache-dir: ${{ env.CCACHE_DIR }}
+          cache-dir: ${{ env.CACHE_DIR }}

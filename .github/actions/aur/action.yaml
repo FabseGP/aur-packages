@@ -11,7 +11,7 @@ inputs:
   pkgname:
     description: 'Name of package'
     required: true
-  ccache-dir:
+  cache-dir:
     description: "Host path to cache"
     required: false
     default: ""
@@ -21,6 +21,4 @@ runs:
   args:
     - ${{ inputs.action }}
     - ${{ inputs.pkgname }}
-    - ${{ inputs.ccache-dir }}
-  volumes:
-    - ${{ inputs.ccache-dir }}:/home/builder/.ccache
+    - ${{ inputs.cache-dir }}
