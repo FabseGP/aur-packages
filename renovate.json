@@ -27,6 +27,15 @@
       ],
       "versioning": "regex:^b(?<major>\\d+)$",
       "allowedVersions": "/^b\\d+$/"
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "docker.io/library/archlinux"
+      ],
+      "versioning": "regex:^base-devel-(?<major>\\d{4})(?<minor>\\d{2})(?<patch>\\d{2})\\.(?<build>\\d+)\\.(?<revision>\\d+)$"
     }
   ]
 }

@@ -21,6 +21,12 @@ echo "::group::Updating archlinux-keyring"
 sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
+if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
+  CCACHE_DIR="/home/builder/.ccache"
+  mkdir -p "$CCACHE_DIR"
+  export CCACHE_DIR
+fi
+
 echo "::group::Updating checksums on PKGBUILD"
 updpkgsums
 git diff PKGBUILD

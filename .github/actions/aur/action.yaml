@@ -9,11 +9,18 @@ inputs:
     description: "Which action to take. Can be 'validate' or 'updpkgsums'"
     required: true
   pkgname:
-    description: ''
+    description: 'Name of package'
     required: true
+  ccache-dir:
+    description: "Host path to cache"
+    required: false
+    default: ""
 runs:
   using: docker
   image: 'Dockerfile'
   args:
     - ${{ inputs.action }}
     - ${{ inputs.pkgname }}
+    - ${{ inputs.ccache-dir }}
+  volumes:
+    - ${{ inputs.ccache-dir }}:/home/builder/.ccache
