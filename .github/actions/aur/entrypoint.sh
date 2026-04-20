@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "::group::Updating"
-sudo pacman -Syu --noconfirm
-echo "::endgroup::"
-
 # Set path
 WORKPATH=$GITHUB_WORKSPACE/$INPUT_PKGNAME
 HOME=/home/builder
@@ -16,10 +12,6 @@ mkdir gh-action
 cd gh-action
 cp -rfv "$GITHUB_WORKSPACE"/.git ./
 cp -fv "$WORKPATH"/* .
-echo "::endgroup::"
-
-echo "::group::Updating archlinux-keyring"
-sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
 if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
@@ -40,13 +32,13 @@ git diff .SRCINFO
 echo "::endgroup::"
 
 if [[ "$INPUT_ACTION" == "validate" ]]; then
-  echo "::group::Installing depends using paru"
-  source PKGBUILD
-  paru -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
+  echo "::group::Running makepkg"
+  makepkg --syncdeps --noconfirm --needed
   echo "::endgroup::"
 
-  echo "::group::Running makepkg"
-  makepkg
+  echo "::group::Linting with namcap"
+  namcap PKGBUILD
+  namcap ./*.pkg.tar.zst 2>/dev/null || true
   echo "::endgroup::"
 
 else

@@ -11,7 +11,7 @@ RUN echo "" >> /etc/pacman.conf && \
     echo "[chaotic-aur]" >> /etc/pacman.conf && \
     echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 
-RUN pacman -Syu --needed --noconfirm pacman-contrib namcap git sudo paru ccache && \
+RUN pacman -Syu --needed --noconfirm pacman-contrib namcap git sudo paru ccache archlinux-keyring && \
   useradd -m -u 1001 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
