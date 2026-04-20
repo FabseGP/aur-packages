@@ -53,4 +53,4 @@ jobs:
         with:
           action: 'validate'
           pkgname: ${{ env.pkgbuild }}
-          ccache_dir: ${{ env.CACHE_DIR }}
+          ccache_dir: ${{ env.CCACHE_DIR }}
