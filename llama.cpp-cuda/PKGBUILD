@@ -14,16 +14,18 @@ depends=(
   curl
   gcc-libs
   glibc
-  python
   cuda
   nvidia-utils
+  python
 )
 makedepends=(
   cmake
+  cudnn
   git
   shaderc
 )
 optdepends=(
+  'nccl: needed for multi-GPU parallelism'
   'python-numpy: needed for convert_hf_to_gguf.py'
   'python-safetensors: needed for convert_hf_to_gguf.py'
   'python-sentencepiece: needed for convert_hf_to_gguf.py'
@@ -66,6 +68,7 @@ build() {
     -DGGML_RPC=ON
     -DGGML_CUDA=ON
     -DGGML_CUDA_FA_ALL_QUANTS=ON
+    -DGGML_CUDNN=ON
     -DLLAMA_BUILD_NUMBER="${pkgver#b}"
     -Wno-dev
   )

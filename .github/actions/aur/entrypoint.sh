@@ -23,7 +23,9 @@ sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
 if [[ -n "${INPUT_CACHE_DIR:-}" ]]; then
-  export CCACHE_DIR="/github/workspace/${INPUT_CACHE_DIR}"
+  CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CACHE_DIR}"
+  mkdir -p "$CCACHE_PATH"
+  export CCACHE_DIR="$CCACHE_PATH"
 fi
 
 echo "::group::Updating checksums on PKGBUILD"
