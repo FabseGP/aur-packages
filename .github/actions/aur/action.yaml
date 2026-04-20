@@ -11,7 +11,7 @@ inputs:
   pkgname:
     description: 'Name of package'
     required: true
-  ccache-dir:
+  ccache_dir:
     description: "Host path to ccache"
     required: false
     default: ""
@@ -21,4 +21,4 @@ runs:
   args:
     - ${{ inputs.action }}
     - ${{ inputs.pkgname }}
-    - ${{ inputs.ccache-dir }}
+    - ${{ inputs.ccache_dir }}
