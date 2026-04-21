@@ -4,9 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ main ]
-  push:
-    branches: [ main ]
-    paths: [ '*/PKGBUILD' ]
+  #push:
+    #branches: [ main ]
+    #paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
 
 env:
