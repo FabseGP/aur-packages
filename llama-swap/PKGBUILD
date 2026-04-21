@@ -3,7 +3,7 @@
 
 pkgname=llama-swap
 pkgver=v204 # renovate: datasource=github-releases depName=mostlygeek/llama-swap
-pkgrel=2
+pkgrel=3
 pkgdesc="Model swapping for llama.cpp (or any local OpenAPI compatible server)"
 arch=(x86_64 aarch64)
 url="https://github.com/mostlygeek/llama-swap"
