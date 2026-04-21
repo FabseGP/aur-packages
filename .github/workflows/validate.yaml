@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ main ]
+  push:
+    branches: [ main ]
+    paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
 
 env:
@@ -12,8 +15,6 @@ env:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write 
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -25,8 +26,12 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euxo pipefail
-
-          echo "pkgbuild=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} "*PKGBUILD" | head -1 | xargs dirname)" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PKGBUILD_PATH=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} -- "*PKGBUILD" | head -n 1)
+          else
+            PKGBUILD_PATH=$(git diff --name-only HEAD~1 HEAD -- "*PKGBUILD" | head -n 1)
+          fi
+          echo "pkgbuild=$(dirname "$PKGBUILD_PATH")" >> "$GITHUB_ENV"
 
       - name: Prepare ccache directory
         if: ${{ env.pkgbuild != '' }}
@@ -37,10 +42,9 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: ${{ github.workspace }}/${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-
+          key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-${{ hashFiles(env.pkgbuild) }}
           restore-keys: |
             ${{ runner.os }}-cache-${{ env.pkgbuild }}-
-            ${{ runner.os }}-cache-
 
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
