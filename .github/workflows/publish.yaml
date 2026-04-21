@@ -34,8 +34,8 @@ jobs:
         id: version
         run: |
           srcinfo="${{ env.pkgbuild }}/.SRCINFO"
-          pkgver=$(grep -m1 '^pkgver =' "$srcinfo" | cut -d' ' -f3)
-          pkgrel=$(grep -m1 '^pkgrel =' "$srcinfo" | cut -d' ' -f3)
+          pkgver=$(grep -m1 'pkgver =' "$srcinfo" | cut -d' ' -f3)
+          pkgrel=$(grep -m1 'pkgrel =' "$srcinfo" | cut -d' ' -f3)
           echo "version=${pkgver}-${pkgrel}" >> $GITHUB_OUTPUT
 
       - name: Commit updated checksums
