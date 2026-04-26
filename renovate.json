@@ -26,7 +26,10 @@
         "ggml-org/llama.cpp"
       ],
       "versioning": "regex:^b(?<major>\\d+)$",
-      "allowedVersions": "/^b\\d+$/"
+      "allowedVersions": "/^b\\d+$/",
+      "minimumReleaseAge": "90 minutes",
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict"
     },
     {
       "matchDatasources": [
