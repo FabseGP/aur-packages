@@ -28,7 +28,6 @@
       "versioning": "regex:^b(?<major>\\d+)$",
       "allowedVersions": "/^b\\d+$/",
       "minimumReleaseAge": "90 minutes",
-      "prCreation": "not-pending",
       "internalChecksFilter": "strict"
     },
     {
