@@ -9,6 +9,7 @@
   ],
   "configMigration": true,
   "automerge": true,
+  "rebaseWhen": "conflicted",
   "customManagers": [
     {
       "customType": "regex",
