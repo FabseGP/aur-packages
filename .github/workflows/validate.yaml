@@ -1,5 +1,4 @@
 name: validate aur package
-
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -8,10 +7,8 @@ on:
     #branches: [ main ]
     #paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
-
 env:
   CCACHE_DIR: .ccache
-
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -21,7 +18,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-
       - name: Find updated package
         run: |
           #!/usr/bin/env bash
@@ -32,11 +28,9 @@ jobs:
             PKGBUILD_PATH=$(git diff --name-only HEAD~1 HEAD -- "*PKGBUILD" | head -n 1)
           fi
           echo "pkgbuild=$(dirname "$PKGBUILD_PATH")" >> "$GITHUB_ENV"
-
       - name: Prepare ccache directory
         if: ${{ env.pkgbuild != '' }}
         run: mkdir -p ${{ github.workspace }}/${{ env.CCACHE_DIR }}
-
       - name: Cache builds
         if: ${{ env.pkgbuild != '' }}
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
@@ -45,7 +39,6 @@ jobs:
           key: ${{ runner.os }}-cache-${{ env.pkgbuild }}-${{ hashFiles(env.pkgbuild) }}
           restore-keys: |
             ${{ runner.os }}-cache-${{ env.pkgbuild }}-
-
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
         uses: ./.github/actions/aur

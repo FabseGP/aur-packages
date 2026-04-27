@@ -1,5 +1,4 @@
 name: publish docker image
-
 on:
   push:
     branches: [main]
@@ -7,15 +6,9 @@ on:
       - '.github/actions/aur/Dockerfile'
       - '.github/actions/aur/entrypoint.sh'
   workflow_dispatch:
-
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}/aur-action
-
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -39,6 +32,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - name: Build and push
+        id: push
         uses: docker/build-push-action@v7
         with:
           context: .github/actions/aur
