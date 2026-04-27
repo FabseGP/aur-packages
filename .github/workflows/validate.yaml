@@ -1,4 +1,4 @@
-name: validate
+name: validate aur package
 
 on:
   pull_request:
