@@ -1,8 +1,9 @@
-name: validate aur package
+name: validate pr
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ main ]
+    paths: [ '*/PKGBUILD' ]
   #push:
     #branches: [ main ]
     #paths: [ '*/PKGBUILD' ]
@@ -21,13 +22,17 @@ jobs:
       - name: Find updated package
         run: |
           #!/usr/bin/env bash
-          set -euxo pipefail
+          set -euo pipefail
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            PKGBUILD_PATH=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} -- "*PKGBUILD" | head -n 1)
+            PKGBUILD_PATH=$(git diff --name-only origin/main "origin/${GITHUB_HEAD_REF}" -- '*PKGBUILD' | head -n 1)
           else
-            PKGBUILD_PATH=$(git diff --name-only HEAD~1 HEAD -- "*PKGBUILD" | head -n 1)
+            PKGBUILD_PATH=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | head -n 1)
           fi
-          echo "pkgbuild=$(dirname "$PKGBUILD_PATH")" >> "$GITHUB_ENV"
+          if [[ -n "$PKGBUILD_PATH" ]]; then
+            echo "pkgbuild=$(dirname "$PKGBUILD_PATH")" >> "$GITHUB_ENV"
+          else
+            echo "pkgbuild=" >> "$GITHUB_ENV"
+          fi
       - name: Prepare ccache directory
         if: ${{ env.pkgbuild != '' }}
         run: mkdir -p ${{ github.workspace }}/${{ env.CCACHE_DIR }}
