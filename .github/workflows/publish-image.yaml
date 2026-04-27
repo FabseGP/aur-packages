@@ -1,4 +1,4 @@
-name: Publish docker image
+name: publish docker image
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
     paths:
       - '.github/actions/aur/Dockerfile'
       - '.github/actions/aur/entrypoint.sh'
-      - '.github/workflows/publish-image.yml'
   workflow_dispatch:
 
 env:
