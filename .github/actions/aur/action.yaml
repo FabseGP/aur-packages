@@ -17,7 +17,7 @@ inputs:
     default: ""
 runs:
   using: docker
-  image: 'Dockerfile'
+  image: docker://ghcr.io/fabsegp/aur-packages/aur-action@sha256:3f910b4ff73af64cb23159172df591a76336fdbd041683a90bfcec373bc2cfac
   args:
     - ${{ inputs.action }}
     - ${{ inputs.pkgname }}
