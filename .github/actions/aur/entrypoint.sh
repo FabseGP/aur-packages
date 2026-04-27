@@ -14,13 +14,6 @@ cp -rfv "$GITHUB_WORKSPACE"/.git ./
 cp -fv "$WORKPATH"/* .
 echo "::endgroup::"
 
-if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
-  CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CCACHE_DIR}"
-  mkdir -p "$CCACHE_PATH"
-  export CCACHE_DIR="$CCACHE_PATH"
-  echo "CCACHE_DIR set to: $CCACHE_DIR" >&2
-fi
-
 echo "::group::Updating checksums on PKGBUILD"
 updpkgsums
 git diff PKGBUILD
@@ -32,6 +25,13 @@ git diff .SRCINFO
 echo "::endgroup::"
 
 if [[ "$INPUT_ACTION" == "validate" ]]; then
+  if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
+    CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CCACHE_DIR}"
+    mkdir -p "$CCACHE_PATH"
+    export CCACHE_DIR="$CCACHE_PATH"
+    echo "CCACHE_DIR set to: $CCACHE_DIR" >&2
+  fi
+
   echo "::group::Running makepkg"
   makepkg --syncdeps --noconfirm --needed
   echo "::endgroup::"
