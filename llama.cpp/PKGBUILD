@@ -3,7 +3,7 @@
 # Contributor: envolution
 
 pkgname=llama.cpp
-pkgver=b8953 # renovate: datasource=github-releases depName=ggml-org/llama.cpp
+pkgver=b8955 # renovate: datasource=github-releases depName=ggml-org/llama.cpp
 pkgrel=6
 pkgdesc="Port of Facebook's LLaMA model in C/C++"
 arch=(x86_64 armv7h aarch64)
