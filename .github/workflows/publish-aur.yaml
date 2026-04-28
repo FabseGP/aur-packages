@@ -53,3 +53,4 @@ jobs:
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
           commit_message: "ci(${{ env.pkgbuild }}): update package to ${{ steps.version.outputs.version }}"
           ssh_keyscan_types: rsa,ecdsa,ed25519
+          force_push: true
