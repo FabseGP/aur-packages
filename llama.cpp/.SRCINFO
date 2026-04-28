@@ -3,6 +3,7 @@ pkgbase = llama.cpp
 	pkgver = b8953
 	pkgrel = 5
 	url = https://github.com/ggml-org/llama.cpp
+	install = llama.cpp.install
 	arch = x86_64
 	arch = armv7h
 	arch = aarch64

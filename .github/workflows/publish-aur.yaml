@@ -41,6 +41,9 @@ jobs:
           commit_user_email: 'fabse_utilities@pm.me'
         env:
           GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
+      - name: List content
+        run: |
+          ls ${{ env.pkgbuild }}
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@da03e160361ce01bf087e790b6ffd196d7dccff7 # v4.1.3
         if: ${{ env.pkgbuild != '' }}
