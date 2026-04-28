@@ -1,0 +1,13 @@
+post_install() {
+  systemd-sysusers --root=/
+  systemd-tmpfiles --create --root=/
+}
+
+post_upgrade() {
+  systemd-sysusers --root=/
+  systemd-tmpfiles --create --root=/
+}
+
+post_remove() {
+  systemd-tmpfiles --remove --root=/
+}
