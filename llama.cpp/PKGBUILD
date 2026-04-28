@@ -32,12 +32,12 @@ provides=(${pkgname})
 conflicts=(${pkgname} libggml ggml)
 options=(lto !debug)
 backup=("etc/conf.d/llama.cpp")
-install='llama-cpp.install'
+install='llama.cpp.install'
 source=(
   "${pkgname}-${pkgver}.tar.gz::https://github.com/ggml-org/llama.cpp/archive/refs/tags/${pkgver}.tar.gz"
   'llama.cpp.conf'
   'llama.cpp.service'
-  'llama-cpp.install'
+  'llama.cpp.install'
   'sysusers.conf'
   'tmpfiles.conf'
 )

@@ -10,8 +10,7 @@ echo "::group::Copying files from $WORKPATH to $HOME/gh-action"
 cd $HOME
 mkdir gh-action
 cd gh-action
-cp -rfv "$GITHUB_WORKSPACE"/.git ./
-cp -fv "$WORKPATH"/* .
+rsync -av --exclude='.git' "$WORKPATH"/ ./
 echo "::endgroup::"
 
 echo "::group::Updating checksums on PKGBUILD"
