@@ -10,6 +10,7 @@ ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 User=llama-cpp
 Group=llama-cpp
+UMask=0007
 
 [Install]
 WantedBy=multi-user.target

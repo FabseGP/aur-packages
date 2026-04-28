@@ -1,13 +1,18 @@
 post_install() {
-  systemd-sysusers --root=/
-  systemd-tmpfiles --create --root=/
+  echo ":: llama.cpp now runs as a dedicated unprivileged user."
+  echo ":: To allow your user to access the API socket:"
+  echo "   sudo usermod -aG llama-cpp \$USER"
+  echo "   (Log out and back in for group changes to apply)"
 }
 
 post_upgrade() {
-  systemd-sysusers --root=/
-  systemd-tmpfiles --create --root=/
+  if [ -d /var/lib/llama-cpp ] && [ "$(stat -c '%U' /var/lib/llama-cpp 2>/dev/null)" = "root" ]; then
+    chown -R llama-cpp:llama-cpp /var/lib/llama-cpp 2>/dev/null || true
+    echo ":: Migrated /var/lib/llama-cpp ownership to llama-cpp user."
+  fi
 }
 
 post_remove() {
-  systemd-tmpfiles --remove --root=/
+  echo ":: The llama-cpp system user/group remains on the system."
+  echo ":: To fully remove: sudo userdel -r llama-cpp"
 }
