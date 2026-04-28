@@ -29,7 +29,7 @@
       "versioning": "regex:^b(?<major>\\d+)$",
       "allowedVersions": "/^b\\d+$/",
       "minimumReleaseAge": "90 minutes",
-      "internalChecksFilter": "strict"
+      "internalChecksFilter": "none"
     },
     {
       "matchDatasources": [
