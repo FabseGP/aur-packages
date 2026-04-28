@@ -43,10 +43,10 @@ source=(
 )
 sha256sums=('6fe34078d80b7edcd6347f029d7b6c43d6b109fee442768d9ebf6eeb3f5d39ee'
             '53fa70cfe40cb8a3ca432590e4f76561df0f129a31b121c9b4b34af0da7c4d87'
-            'fccfab8cfdcb761153a2360a64356e00c2c7f56b7a92c4981261a06ce27c7fdf'
-            'e2085b32a0a0a2f006689bb1c82fc06dac934a6fe99cd34adbdacc5f5cdebaa4'
+            '48d6b261315c9175b4b4cea4900bd4d76f2f27112804934db656537485510cd2'
+            'fbb8ed942adfe3722bb46ec18b95c2e0320c087dcf996d29a14e4b5587093994'
             '8b7e4ba31a27a27c611d94b8ec99a39eaea0e8ef2afaea53f06795d950fc346d'
-            '541f3a7694e1afab46dc7a33335002ace12353050a1ab9d67383e8ad72efe094')
+            '4730d43503457ac393770df1beb4a740b1bfaa7f6eadd0f5f9920309af7155d7')
 
 prepare() {
   ln -sf "${pkgname}-${pkgver}" llama.cpp
