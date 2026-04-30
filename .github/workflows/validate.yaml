@@ -1,4 +1,4 @@
-name: validate pr
+name: validate package
 on:
   push:
     branches: [ main ]
