@@ -2,12 +2,15 @@
 set -euo pipefail
 
 # Set path
-WORKPATH=$GITHUB_WORKSPACE/$INPUT_PKGNAME
-HOME=/home/builder
+ACTION="${1:-}"
+PKGNAME="${2:-}"
+CCACHE_DIR_ARG="${3:-}"
 
-echo "::group::Copying files from $WORKPATH to $HOME/gh-action"
+WORKPATH="$GITHUB_WORKSPACE/$PKGNAME"
+
+echo "::group::Copying files from $GITHUB_WORKSPACE to $HOME/gh-action"
 # Set path permision
-cd $HOME
+cd "$HOME"
 mkdir gh-action
 cd gh-action
 cp -rfv "$GITHUB_WORKSPACE"/.git ./
@@ -24,9 +27,9 @@ makepkg --printsrcinfo >.SRCINFO
 git diff .SRCINFO
 echo "::endgroup::"
 
-if [[ "$INPUT_ACTION" == "validate" ]]; then
-  if [[ -n "${INPUT_CCACHE_DIR:-}" ]]; then
-    CCACHE_PATH="$GITHUB_WORKSPACE/${INPUT_CCACHE_DIR}"
+if [[ "$ACTION" == "validate" ]]; then
+  if [[ -n "${CCACHE_DIR_ARG:-}" ]]; then
+    CCACHE_PATH="$GITHUB_WORKSPACE/${CCACHE_DIR_ARG}"
     mkdir -p "$CCACHE_PATH"
     export CCACHE_DIR="$CCACHE_PATH"
     echo "CCACHE_DIR set to: $CCACHE_DIR" >&2
