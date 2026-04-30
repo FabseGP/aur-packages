@@ -12,6 +12,7 @@ env:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    container: ghcr.io/fabsegp/aur-packages/aur-action:sha256-a02674f9f3ccf0c061b298c0de9d2f9ae1b91ffd2e18e26dea3fb8f3b7d2b861
     outputs:
       pkgbuild: ${{ steps.find_pkg.outputs.pkgbuild }}
     steps:
@@ -51,11 +52,8 @@ jobs:
             ${{ runner.os }}-cache-${{ env.pkgbuild }}-
       - name: Validate package
         if: ${{ env.pkgbuild != '' }}
-        uses: ./.github/actions/aur
-        with:
-          action: 'validate'
-          pkgname: ${{ env.pkgbuild }}
-          ccache_dir: ${{ env.CCACHE_DIR }}
+        run: |
+          /entrypoint.sh validate "${{ env.pkgbuild }}" "${{ env.CCACHE_DIR }}"
   publish:
     needs: validate
     if: ${{ needs.validate.outputs.pkgbuild != '' }}

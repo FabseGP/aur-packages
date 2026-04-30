@@ -9,16 +9,15 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    container: ghcr.io/fabsegp/aur-packages/aur-action:sha256-a02674f9f3ccf0c061b298c0de9d2f9ae1b91ffd2e18e26dea3fb8f3b7d2b861
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
       - name: Update checksums
-        uses: ./.github/actions/aur
-        with:
-          action: 'updpkgsums'
-          pkgname: ${{ inputs.pkgbuild }}
+        run: |
+          /entrypoint.sh updpkgsums "${{ inputs.pkgbuild }}"
       - name: Extract version from .SRCINFO
         id: version
         run: |
