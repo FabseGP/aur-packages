@@ -5,7 +5,7 @@
 pkgname=llama.cpp-cuda
 _pkgname=${pkgname%%-cuda}
 pkgver=b8851 # renovate: datasource=github-releases depName=ggml-org/llama.cpp
-pkgrel=2
+pkgrel=1
 pkgdesc="Port of Facebook's LLaMA model in C/C++ (with NVIDIA CUDA optimizations)"
 arch=(x86_64 armv7h aarch64)
 url='https://github.com/ggml-org/llama.cpp'
@@ -23,6 +23,7 @@ makedepends=(
   cudnn
   git
   shaderc
+  ninja
 )
 optdepends=(
   'nccl: needed for multi-GPU parallelism'
@@ -53,6 +54,7 @@ build() {
     source /etc/profile
   fi
   local _cmake_options=(
+    -G Ninja
     -B build
     -S "${_pkgname}"
     -DCMAKE_BUILD_TYPE=Release
