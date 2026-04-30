@@ -5,7 +5,7 @@ RUN pacman-key --init
 RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
   git archlinux-keyring nodejs curl base-devel mold zstd cmake go \
   pnpm rustup ninja --overwrite '*' && \
-  useradd -m -u 1001 builder && \
+  useradd -m -u 1000 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 RUN sed -i 's/!ccache/ccache/' /etc/makepkg.conf && \
