@@ -5,6 +5,7 @@ on:
     paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
 concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 env:
   CCACHE_DIR: .ccache
