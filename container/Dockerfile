@@ -2,7 +2,7 @@ FROM docker.io/library/archlinux:base-devel-20260419.0.517065
 
 RUN pacman-key --init
 
-RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache \
+RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
   git archlinux-keyring nodejs curl base-devel mold zstd cmake go \
   pnpm rustup ninja --overwrite '*' && \
   useradd -m -u 1001 builder && \
