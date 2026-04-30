@@ -4,7 +4,7 @@
 
 pkgname=llama.cpp
 pkgver=b8983 # renovate: datasource=github-releases depName=ggml-org/llama.cpp
-pkgrel=6
+pkgrel=1
 pkgdesc="Port of Facebook's LLaMA model in C/C++"
 arch=(x86_64 armv7h aarch64)
 url='https://github.com/ggml-org/llama.cpp'
@@ -19,6 +19,7 @@ makedepends=(
   cmake
   git
   shaderc
+  ninja
 )
 optdepends=(
   'python-numpy: needed for convert_hf_to_gguf.py'
@@ -53,6 +54,7 @@ prepare() {
 }
 build() {
   local _cmake_options=(
+    -G Ninja
     -B build
     -S "${pkgname}"
     -DCMAKE_BUILD_TYPE=Release
