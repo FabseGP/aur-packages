@@ -10,7 +10,8 @@ echo "::group::Copying files from $WORKPATH to $HOME/gh-action"
 cd $HOME
 mkdir gh-action
 cd gh-action
-rsync -av --exclude='.git' "$WORKPATH"/ ./
+cp -rfv "$GITHUB_WORKSPACE"/.git ./
+cp -fv "$WORKPATH"/* .
 echo "::endgroup::"
 
 echo "::group::Updating checksums on PKGBUILD"
@@ -37,7 +38,6 @@ if [[ "$INPUT_ACTION" == "validate" ]]; then
 
   echo "::group::Linting with namcap"
   namcap PKGBUILD
-  namcap ./*.pkg.tar.zst 2>/dev/null || true
   echo "::endgroup::"
 
 else
