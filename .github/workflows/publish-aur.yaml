@@ -9,7 +9,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    container: ghcr.io/fabsegp/aur-packages/aur-action:sha256-a02674f9f3ccf0c061b298c0de9d2f9ae1b91ffd2e18e26dea3fb8f3b7d2b861
+    container: ghcr.io/fabsegp/aur-packages/aur-action:main
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6

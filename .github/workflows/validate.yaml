@@ -12,7 +12,7 @@ env:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    container: ghcr.io/fabsegp/aur-packages/aur-action:sha256-a02674f9f3ccf0c061b298c0de9d2f9ae1b91ffd2e18e26dea3fb8f3b7d2b861
+    container: ghcr.io/fabsegp/aur-packages/aur-action:main
     outputs:
       pkgbuild: ${{ steps.find_pkg.outputs.pkgbuild }}
     steps:
