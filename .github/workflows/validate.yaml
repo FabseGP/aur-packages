@@ -4,11 +4,15 @@ on:
     branches: [ main ]
     paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
+concurrency:
+  cancel-in-progress: false
 env:
   CCACHE_DIR: .ccache
 jobs:
   validate:
     runs-on: ubuntu-latest
+    outputs:
+      pkgbuild: ${{ steps.find_pkg.outputs.pkgbuild }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -16,6 +20,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
       - name: Find updated package
+        id: find_pkg
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
@@ -25,8 +30,11 @@ jobs:
             PKGBUILD_PATH=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | head -n 1)
           fi
           if [[ -n "$PKGBUILD_PATH" ]]; then
-            echo "pkgbuild=$(dirname "$PKGBUILD_PATH")" >> "$GITHUB_ENV"
+            pkgbuild=$(dirname "$PKGBUILD_PATH")
+            echo "pkgbuild=$pkgbuild" >> "$GITHUB_OUTPUT"
+            echo "pkgbuild=$pkgbuild" >> "$GITHUB_ENV"
           else
+            echo "pkgbuild=" >> "$GITHUB_OUTPUT"
             echo "pkgbuild=" >> "$GITHUB_ENV"
           fi
       - name: Prepare ccache directory
@@ -47,8 +55,9 @@ jobs:
           action: 'validate'
           pkgname: ${{ env.pkgbuild }}
           ccache_dir: ${{ env.CCACHE_DIR }}
-      - name: Publish package
-        if: ${{ env.pkgbuild != '' }}
-        uses: ./.github/workflows/publish-aur.yaml
-        with:
-          pkgbuild: ${{ env.pkgbuild }}
+  publish:
+    needs: validate
+    if: ${{ needs.validate.outputs.pkgbuild != '' }}
+    uses: ./.github/workflows/publish-aur.yaml
+    with:
+      pkgbuild: ${{ needs.validate.outputs.pkgbuild }}
