@@ -26,6 +26,12 @@ jobs:
           pkgver=$(grep -m1 'pkgver =' "$srcinfo" | cut -d' ' -f3)
           pkgrel=$(grep -m1 'pkgrel =' "$srcinfo" | cut -d' ' -f3)
           echo "version=${pkgver}-${pkgrel}" >> $GITHUB_OUTPUT
+      - name: Sync with remote branch
+        run: |
+          git fetch origin
+          git rebase origin/main
+        env:
+          GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
       - name: Commit updated checksums
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7
         with:
