@@ -62,3 +62,4 @@ jobs:
     uses: ./.github/workflows/publish-aur.yaml
     with:
       pkgbuild: ${{ needs.validate.outputs.pkgbuild }}
+    secrets: inherit
