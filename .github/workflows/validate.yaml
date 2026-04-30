@@ -1,11 +1,8 @@
 name: validate pr
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
     branches: [ main ]
-  #push:
-    #branches: [ main ]
-    #paths: [ '*/PKGBUILD' ]
+    paths: [ '*/PKGBUILD' ]
   workflow_dispatch:
 env:
   CCACHE_DIR: .ccache
@@ -50,3 +47,8 @@ jobs:
           action: 'validate'
           pkgname: ${{ env.pkgbuild }}
           ccache_dir: ${{ env.CCACHE_DIR }}
+      - name: Publish package
+        if: ${{ env.pkgbuild != '' }}
+        uses: ./.github/workflows/publish-aur.yaml
+        with:
+          pkgbuild: ${{ env.pkgbuild }}

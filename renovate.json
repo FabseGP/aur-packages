@@ -9,7 +9,7 @@
   ],
   "configMigration": true,
   "automerge": true,
-  "rebaseWhen": "conflicted",
+  "ignoreTests": true,
   "customManagers": [
     {
       "customType": "regex",
@@ -27,9 +27,7 @@
         "ggml-org/llama.cpp"
       ],
       "versioning": "regex:^b(?<major>\\d+)$",
-      "allowedVersions": "/^b\\d+$/",
-      "minimumReleaseAge": "90 minutes",
-      "internalChecksFilter": "none"
+      "allowedVersions": "/^b\\d+$/"
     },
     {
       "matchDatasources": [
