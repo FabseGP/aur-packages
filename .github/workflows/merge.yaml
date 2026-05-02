@@ -1,0 +1,39 @@
+name: package update
+on:
+  push:
+    branches: [ main ]
+    paths: [ '*/PKGBUILD' ]
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  CCACHE_DIR: .ccache
+jobs:
+  find-packages:
+    runs-on: ubuntu-latest
+    outputs:
+      pkgbuilds: ${{ steps.find_pkg.outputs.pkgbuilds }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+      - name: Find updated packages
+        id: find_pkgs
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | jq -R . | jq -s .)
+          echo "pkgbuilds=$PKGBUILDS" >> "$GITHUB_OUTPUT"
+  prepare-package:
+    needs: find-packages
+    if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
+    strategy:
+      matrix:
+        pkgbuild: ${{ fromJSON(needs.find-packages.outputs.pkgbuilds) }}
+    uses: ./.github/workflows/validate.yaml
+    with:
+      pkgbuild: ${{ matrix.pkgbuild }}
+    secrets: inherit
