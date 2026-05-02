@@ -24,8 +24,15 @@ jobs:
         id: find_pkgs
         run: |
           set -euo pipefail
-          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | xargs -n1 dirname | sort -u | jq -Rsc .)
-          echo "pkgbuilds=${PKGBUILDS}" >> "$GITHUB_OUTPUT"
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' || true)
+          if [ -z "$CHANGED" ]; then
+            PKGBUILDS='[]'
+          else
+            PKGBUILDS=$(echo "$CHANGED" | xargs -n1 dirname | sort -u | jq -Rsc .)
+          fi
+          echo "pkgbuilds<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$PKGBUILDS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
   prepare-package:
     needs: find-packages
     if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
