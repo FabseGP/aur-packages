@@ -24,7 +24,7 @@ jobs:
         id: find_pkgs
         run: |
           set -euo pipefail
-          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | jq -R -c '.' | jq -s -c '.' | jq -c 'map(select(length > 0))')
+          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | xargs -n1 dirname | sort -u | jq -Rsc .)
           echo "pkgbuilds=${PKGBUILDS}" >> "$GITHUB_OUTPUT"
   prepare-package:
     needs: find-packages
