@@ -25,7 +25,7 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' | jq -Rsc .)
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' || true)
           if [ -z "$CHANGED" ]; then
             echo "pkgbuilds=[]" >> "$GITHUB_OUTPUT"
           else
