@@ -25,11 +25,14 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' | jq -Rsc .)
-          PKGBUILDS=${PKGBUILDS:-"[]"}          
-          echo "pkgbuilds<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$PKGBUILDS" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' | jq -Rsc .)
+          if [ -z "$CHANGED" ]; then
+            echo "pkgbuilds=[]" >> "$GITHUB_OUTPUT"
+          else
+            PKGBUILDS=$(echo "$CHANGED" | jq -Rsc .)
+            PKGBUILDS=$(echo "$PKGBUILDS" | tr -d '\n\r ')
+            echo "pkgbuilds=$PKGBUILDS" >> "$GITHUB_OUTPUT"
+          fi
   prepare-package:
     needs: find-packages
     if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
