@@ -13,7 +13,7 @@ jobs:
   find-packages:
     runs-on: ubuntu-latest
     outputs:
-      pkgbuilds: ${{ steps.find_pkg.outputs.pkgbuilds }}
+      pkgbuilds: ${{ steps.find_pkgs.outputs.pkgbuilds }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -25,8 +25,11 @@ jobs:
         run: |
           #!/usr/bin/env bash
           set -euo pipefail
-          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | jq -R . | jq -s .)
-          echo "pkgbuilds=$PKGBUILDS" >> "$GITHUB_OUTPUT"
+          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' | jq -Rsc .)
+          PKGBUILDS=${PKGBUILDS:-"[]"}          
+          echo "pkgbuilds<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$PKGBUILDS" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
   prepare-package:
     needs: find-packages
     if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
