@@ -23,16 +23,9 @@ jobs:
       - name: Find updated packages
         id: find_pkgs
         run: |
-          #!/usr/bin/env bash
           set -euo pipefail
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | grep -v '^$' || true)
-          if [ -z "$CHANGED" ]; then
-            echo "pkgbuilds=[]" >> "$GITHUB_OUTPUT"
-          else
-            PKGBUILDS=$(echo "$CHANGED" | jq -Rsc .)
-            PKGBUILDS=$(echo "$PKGBUILDS" | tr -d '\n\r ')
-            echo "pkgbuilds=$PKGBUILDS" >> "$GITHUB_OUTPUT"
-          fi
+          PKGBUILDS=$(git diff --name-only HEAD~1 HEAD -- '*PKGBUILD' | jq -R -c '.' | jq -s -c '.' | jq -c 'map(select(length > 0))')
+          echo "pkgbuilds=${PKGBUILDS}" >> "$GITHUB_OUTPUT"
   prepare-package:
     needs: find-packages
     if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
