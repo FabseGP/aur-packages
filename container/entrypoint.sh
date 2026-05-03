@@ -28,7 +28,7 @@ git diff .SRCINFO
 echo "::endgroup::"
 
 echo "::group::Refreshing pacman"
-pacman -Syy
+sudo pacman -Syy
 echo "::endgroup::"
 
 if [[ "$ACTION" == "validate" ]]; then
