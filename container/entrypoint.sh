@@ -27,6 +27,10 @@ makepkg --printsrcinfo >.SRCINFO
 git diff .SRCINFO
 echo "::endgroup::"
 
+echo "::group::Refreshing pacman"
+pacman -Syy
+echo "::endgroup::"
+
 if [[ "$ACTION" == "validate" ]]; then
   if [[ -n "${CCACHE_DIR_ARG:-}" ]]; then
     CCACHE_PATH="$GITHUB_WORKSPACE/${CCACHE_DIR_ARG}"
