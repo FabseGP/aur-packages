@@ -37,6 +37,7 @@ jobs:
     needs: find-packages
     if: ${{ needs.find-packages.outputs.pkgbuilds != '[]' }}
     strategy:
+      fail-fast: false
       matrix:
         pkgbuild: ${{ fromJSON(needs.find-packages.outputs.pkgbuilds) }}
     uses: ./.github/workflows/validate.yaml
