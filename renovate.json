@@ -38,8 +38,5 @@
       ],
       "versioning": "regex:^base-devel-(?<major>\\d{4})(?<minor>\\d{2})(?<patch>\\d{2})\\.(?<build>\\d+)\\.(?<revision>\\d+)$"
     }
-  ],
-  "ignorePaths": [
-    "llama.cpp-cuda/PKGBUILD"
   ]
 }
