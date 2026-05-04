@@ -13,7 +13,7 @@ RUN echo "" >> /etc/pacman.conf && \
 
 RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
   git archlinux-keyring nodejs curl base-devel mold zstd cmake go \
-  pnpm rustup ninja paru --overwrite '*' && \
+  pnpm rustup ninja paru clang llvm-libs --overwrite '*' && \
   useradd -m -u 1001 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
