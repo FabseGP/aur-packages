@@ -23,15 +23,15 @@ jobs:
           pkgver=$(grep -m1 'pkgver =' "$srcinfo" | cut -d' ' -f3)
           pkgrel=$(grep -m1 'pkgrel =' "$srcinfo" | cut -d' ' -f3)
           echo "version=${pkgver}-${pkgrel}" >> $GITHUB_OUTPUT
-      - name: Commit updated checksums
-        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7
-        with:
-          file_pattern: '${{ inputs.pkgbuild }}/PKGBUILD ${{ inputs.pkgbuild }}/.SRCINFO'
-          commit_message: 'chore(${{ inputs.pkgbuild }}): update checksums to ${{ steps.version.outputs.version }}'
-          commit_user_name: 'FabseGP'
-          commit_user_email: 'fabse_utilities@pm.me'
-        env:
-          GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
+      #- name: Commit updated checksums
+        #uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7
+        #with:
+          #file_pattern: '${{ inputs.pkgbuild }}/PKGBUILD ${{ inputs.pkgbuild }}/.SRCINFO'
+          #commit_message: 'chore(${{ inputs.pkgbuild }}): update checksums to ${{ steps.version.outputs.version }}'
+          #commit_user_name: 'FabseGP'
+          #commit_user_email: 'fabse_utilities@pm.me'
+        #env:
+          #GITHUB_TOKEN: ${{ secrets.ADMIN_PAT }}
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@da03e160361ce01bf087e790b6ffd196d7dccff7 # v4.1.3
         with:
