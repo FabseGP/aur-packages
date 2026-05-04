@@ -34,3 +34,5 @@ WORKDIR /home/runner
 USER builder
 
 RUN paru -S gcc15 --noconfirm
+
+RUN ccache --clear
