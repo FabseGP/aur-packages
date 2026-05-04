@@ -25,8 +25,6 @@ RUN sed -i '/^\[options\]/,/^\[/ s/^\(CheckSpace\)/\1\nDisableSandbox/' /etc/pac
 
 RUN ccache --set-config=max_size=5G --set-config=compression=true
 
-RUN paru -S gcc15 --noconfirm
-
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh 
@@ -34,3 +32,5 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /home/runner
 
 USER builder
+
+RUN paru -S gcc15 --noconfirm
