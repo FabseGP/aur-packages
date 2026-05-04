@@ -17,13 +17,8 @@ RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
   useradd -m -u 1001 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-RUN sed -i 's/!ccache/ccache/' /etc/makepkg.conf && \
-    sed -i 's/^LDFLAGS="\([^"]*\)"/LDFLAGS="\1 -fuse-ld=mold"/' /etc/makepkg.conf && \
-    echo 'export PATH="/usr/lib/ccache:$PATH"' >> /home/builder/.bashrc
-
-RUN sed -i '/^\[options\]/,/^\[/ s/^\(CheckSpace\)/\1\nDisableSandbox/' /etc/pacman.conf
-
-RUN ccache --set-config=max_size=5G --set-config=compression=true
+RUN sed -i 's/^LDFLAGS="\([^"]*\)"/LDFLAGS="\1 -fuse-ld=mold"/' /etc/makepkg.conf && \
+  sed -i '/^\[options\]/,/^\[/ s/^\(CheckSpace\)/\1\nDisableSandbox/' /etc/pacman.conf
 
 COPY entrypoint.sh /entrypoint.sh
 
@@ -33,6 +28,15 @@ WORKDIR /home/runner
 
 USER builder
 
-RUN paru -S gcc15 --noconfirm
+RUN paru -S gcc15 --cleanafter --removemake --noconfirm
 
-RUN ccache --clear
+USER root
+
+RUN sed -i 's/!ccache/ccache/' /etc/makepkg.conf && \
+    echo 'export PATH="/usr/lib/ccache:$PATH"' >> /home/builder/.bashrc
+
+WORKDIR /home/runner
+
+USER builder
+
+RUN ccache --set-config=max_size=5G --set-config=compression=true
