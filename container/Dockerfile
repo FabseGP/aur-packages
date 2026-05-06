@@ -13,7 +13,7 @@ RUN echo "" >> /etc/pacman.conf && \
 
 RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
   git archlinux-keyring nodejs curl base-devel mold zstd cmake go \
-  pnpm rustup ninja paru clang llvm-libs --overwrite '*' && \
+  pnpm rustup ninja paru clang llvm-libs --overwrite gcc15 '*' && \
   useradd -m -u 1001 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
@@ -27,8 +27,6 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /home/runner
 
 USER builder
-
-RUN paru -S gcc15 --cleanafter --removemake --noconfirm
 
 USER root
 

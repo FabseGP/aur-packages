@@ -46,10 +46,9 @@ if [[ "$ACTION" == "validate" ]]; then
   echo "::group::Linting with namcap"
   namcap PKGBUILD
   echo "::endgroup::"
-
-else
-  echo "::group::Copying files from $HOME/gh-action to $WORKPATH"
-  sudo cp -fv PKGBUILD "$WORKPATH"/PKGBUILD
-  sudo cp -fv .SRCINFO "$WORKPATH"/.SRCINFO
-  echo "::endgroup::"
 fi
+
+echo "::group::Copying files from $HOME/gh-action to $WORKPATH"
+sudo cp -fv PKGBUILD "$WORKPATH"/PKGBUILD
+sudo cp -fv .SRCINFO "$WORKPATH"/.SRCINFO
+echo "::endgroup::"
