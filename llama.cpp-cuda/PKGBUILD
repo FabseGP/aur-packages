@@ -21,7 +21,6 @@ depends=(
 makedepends=(
   cmake
   cudnn
-  gcc15
   git
   shaderc
   ninja
@@ -54,18 +53,12 @@ build() {
   if [[ -z "${NVCC_CCBIN}" ]]; then
     source /etc/profile
   fi
-  if ! type -P nvcc &>/dev/null && [[ -d /opt/cuda/bin ]]; then
-    export PATH="/opt/cuda/bin:$PATH"
-  fi
-  # Since CUDA doesn't yet support gcc16, override the compiler to gcc15
-  local _nvcc_host_cxx="${CUDAHOSTCXX:-/usr/bin/g++-15}"
   local _cmake_options=(
     -G Ninja
     -B build
     -S "${_pkgname}"
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_PREFIX='/usr'
-    -DCMAKE_CUDA_HOST_COMPILER="${_nvcc_host_cxx}"
     -DBUILD_SHARED_LIBS=ON
     -DLLAMA_BUILD_TESTS=OFF
     -DLLAMA_USE_SYSTEM_GGML=OFF
