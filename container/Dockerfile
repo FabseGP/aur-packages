@@ -12,12 +12,12 @@ RUN echo "" >> /etc/pacman.conf && \
     echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 
 RUN pacman -Syu --needed --noconfirm pacman-contrib namcap ccache wget \
-  git archlinux-keyring nodejs curl base-devel mold zstd cmake go \
-  pnpm rustup ninja paru clang llvm-libs gcc15 --overwrite '*' && \
+  git archlinux-keyring nodejs curl base-devel wild zstd cmake go \
+  pnpm rustup ninja paru clang llvm-libs --overwrite '*' && \
   useradd -m -u 1001 builder && \
   echo 'builder ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-RUN sed -i 's/^LDFLAGS="\([^"]*\)"/LDFLAGS="\1 -fuse-ld=mold"/' /etc/makepkg.conf && \
+RUN sed -i 's/^LDFLAGS="\([^"]*\)"/LDFLAGS="\1 -fuse-ld=wild"/' /etc/makepkg.conf && \
   sed -i '/^\[options\]/,/^\[/ s/^\(CheckSpace\)/\1\nDisableSandbox/' /etc/pacman.conf
 
 COPY entrypoint.sh /entrypoint.sh
