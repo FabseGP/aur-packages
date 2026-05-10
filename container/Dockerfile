@@ -24,17 +24,9 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh 
 
-WORKDIR /home/runner
-
-USER builder
-
-USER root
-
 RUN sed -i 's/!ccache/ccache/' /etc/makepkg.conf && \
     echo 'export PATH="/usr/lib/ccache:$PATH"' >> /home/builder/.bashrc
 
 WORKDIR /home/runner
 
 USER builder
-
-RUN ccache --set-config=max_size=5G --set-config=compression=true
