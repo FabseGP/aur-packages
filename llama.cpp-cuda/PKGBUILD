@@ -24,6 +24,7 @@ makedepends=(
   git
   shaderc
   ninja
+  npm
 )
 optdepends=(
   'nccl: needed for multi-GPU parallelism'
