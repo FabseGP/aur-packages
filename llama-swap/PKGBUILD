@@ -30,7 +30,7 @@ sha256sums=('8bd60c6e9e4bd722f32c34e19c726d34b5236a729a0d973599e9f3c5252b1db6'
 
 build() {
   cd "$pkgname"
-
+  
   case "$CARCH" in
     x86_64)
       make linux-amd64
@@ -40,15 +40,16 @@ build() {
       ;;
   esac
 }
+
 package() {
   cd "$pkgname"
-
+  
   _binary_name=""
   case "$CARCH" in
     x86_64) _binary_name="llama-swap-linux-amd64" ;;
     aarch64) _binary_name="llama-swap-linux-arm64" ;;
   esac
-
+  
   install -Dm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE.md
   install -Dm644 -t "$pkgdir/etc/llama-swap" config.example.yaml
   install -Dm644 -t "$pkgdir/usr/lib/systemd/system" ../llama-swap.service
