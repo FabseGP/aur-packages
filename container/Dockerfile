@@ -1,4 +1,4 @@
-FROM docker.io/library/archlinux:base-devel-20261011.0.609700
+FROM docker.io/library/archlinux:base-devel-20261018.0.612668
 
 RUN pacman-key --init
 
